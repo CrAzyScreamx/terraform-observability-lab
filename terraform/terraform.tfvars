@@ -1,1 +1,1 @@
-azure_location = "israelcentra"
+azure_location = "israelcentral"
