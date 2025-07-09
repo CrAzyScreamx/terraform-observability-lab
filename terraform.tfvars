@@ -1,1 +1,1 @@
-application_name = "test"
+azure_location = "israelcentra"
