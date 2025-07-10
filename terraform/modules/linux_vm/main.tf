@@ -4,13 +4,14 @@ resource "tls_private_key" "user-key" {
   rsa_bits  = 2048
 }
 
-resource "azurerm_linux_virtual_machine" "main-server" {
+resource "azurerm_linux_virtual_machine" "vm" {
   name                  = var.name
   resource_group_name   = var.resource_group_name
   location              = var.location
   size                  = var.size
   admin_username        = var.username
   network_interface_ids = var.network_interface_ids
+  provision_vm_agent    = true
 
   admin_ssh_key {
     username   = var.username
