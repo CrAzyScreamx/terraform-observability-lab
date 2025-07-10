@@ -5,7 +5,7 @@ source ./scripts/.env
 
 # export SUBID
 export ARM_SUBSCRIPTION_ID="${SUBSCRIPTION_ID}"
-export CLOUDFLARE_API_TOKEN="${CLOUDFLARE_API_KEY}"
+export CLOUDFLARE_API_TOKEN="${CLOUDFLARE_API_TOKEN}"
 
 # export Variables
 export TF_VAR_application_name="${APPLICATION_NAME}"
@@ -26,4 +26,5 @@ terraform init \
 
 terraform $*
 
-rm -r .terraform
+rm -rf .terraform
+

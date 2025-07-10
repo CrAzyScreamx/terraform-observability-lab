@@ -34,4 +34,11 @@ variable "client_count" {
 variable "cloudflare_account_id" {
   type        = string
   description = "The Cloudflare account ID"
+  sensitive   = true
+}
+
+variable "cloudflare_configuration" {
+  type        = bool
+  description = "Flag to enable or disable Cloudflare configuration"
+  default     = true
 }
