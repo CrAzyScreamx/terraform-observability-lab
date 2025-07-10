@@ -65,6 +65,9 @@ module "server_vm" {
   resource_group_name   = azurerm_resource_group.main.name
   location              = azurerm_resource_group.main.location
   network_interface_ids = [module.server_nic.id]
+
+  custom_data = base64encode(file("./setupFiles/server.sh"))
+
 }
 
 resource "local_sensitive_file" "private_key" {
@@ -106,4 +109,4 @@ resource "local_sensitive_file" "client_private_key" {
   content  = module.client_vm.tls_private_key.private_key_pem
   filename = "keys/client_private_key.pem"
 }
-### Client VM Creation ###
+## Client VM Creation ###

@@ -30,3 +30,8 @@ variable "client_count" {
   description = "The number of clients to create"
   default     = 1
 }
+
+variable "cloudflare_account_id" {
+  type        = string
+  description = "The Cloudflare account ID"
+}

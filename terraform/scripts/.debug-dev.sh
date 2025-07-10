@@ -5,10 +5,12 @@ source ./scripts/.env
 
 # export SUBID
 export ARM_SUBSCRIPTION_ID="${SUBSCRIPTION_ID}"
+export CLOUDFLARE_API_TOKEN="${CLOUDFLARE_API_KEY}"
 
 # export Variables
 export TF_VAR_application_name="${APPLICATION_NAME}"
 export TF_VAR_environment_name="${ENVIRONMENT_NAME}"
+export TF_VAR_cloudflare_account_id="${CLOUDFLARE_ACCOUNT_ID}"
 
 
 export BACKEND_RESOURCE_GROUP_NAME="${BACKEND_RG_NAME}"
