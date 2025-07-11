@@ -56,9 +56,13 @@ module "server_vm" {
   location              = azurerm_resource_group.main.location
   network_interface_ids = [module.server_nic.id]
 
-  custom_data = var.cloudflare_configuration ? base64encode(templatefile("/setupFiles/server.sh", {
-    tunnel_token = data.cloudflare_zero_trust_tunnel_cloudflared_token.main[0].token
-  })) : null
+  # custom_data = var.cloudflare_configuration ? base64encode(templatefile("/setupFiles/server.sh", {
+  #   tunnel_token = data.cloudflare_zero_trust_tunnel_cloudflared_token.main[0].token
+  # })) : null
+  custom_data = base64encode(templatefile("/setupFiles/server.sh", {
+    github_key = file("keys/github.key") # Private Repo Access Key
+    cloudflare = var.cloudflare_configuration
+  }))
 }
 
 resource "local_sensitive_file" "private_key" {

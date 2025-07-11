@@ -1,0 +1,4 @@
+---
+- name: Echoing
+  ansible.builtin.debug:
+    msg: "Echoing from cloudflare.yml"

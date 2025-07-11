@@ -1,3 +1,4 @@
+# Environment Variables
 variable "environment_name" {
   type        = string
   description = "The value of the environment name"
@@ -31,10 +32,12 @@ variable "client_count" {
   default     = 1
 }
 
+# Cloudflare Variables
 variable "cloudflare_account_id" {
   type        = string
   description = "The Cloudflare account ID"
   sensitive   = true
+  default     = null
 }
 
 variable "cloudflare_configuration" {

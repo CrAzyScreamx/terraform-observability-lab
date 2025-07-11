@@ -1,0 +1,12 @@
+---
+- name: Configuration playbook
+  hosts: localhost
+  gather_facts: yes
+  tasks:
+    - name: Distribution Info
+      ansible.builtin.debug:
+        msg: "Distribution: {{ ansible_distribution }}, Version: {{ ansible_distribution_version }}, Release: {{ ansible_distribution_release }}"
+
+    - name: Insatlling Cloudflare Zero Trust Tunnel
+      include_tasks: cloudflare_zero_trust_tunnel.yml
+      when: ansible_distribution == "Ubuntu" and ansible_distribution_version is version('20.04', '>=') and cloudflare
