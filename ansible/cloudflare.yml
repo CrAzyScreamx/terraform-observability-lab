@@ -29,33 +29,6 @@
       ansible.builtin.apt:
         name: cloudflared
         state: present
-  when: ansible_os_family == 'Debian'
-
-- name: Installing Cloudflared ZTNA - RedHat/CentOS
-  block:
-    - name: Installing yum-utils for yum systems
-      ansible.builtin.yum:
-        name: yum-utils
-        state: present
-      when: ansible_pkg_mgr == "yum"
-
-    - name: Installing dnf-plugins-core for dnf systems
-      ansible.builtin.yum:
-        name: dnf-plugins-core
-        state: present
-      when: ansible_pkg_mgr == "dnf"
-
-    - name: Downloading Cloudflared repo manually
-      ansible.builtin.get_url:
-        url: https://pkg.cloudflare.com/cloudflared-ascii.repo
-        dest: /etc/yum.repos.d/cloudflared.repo
-        mode: '0644'
-
-    - name: Installing cloudflared
-      ansible.builtin.package:
-        name: cloudflared
-        state: present
-  when: ansible_os_family == 'RedHat'
 
 - name: Installing Cloudflared as a systemd service
   ansible.builtin.shell: "cloudflared service install {{ tunnel_token }}"
