@@ -1,4 +1,35 @@
 ---
-- name: Echoing
-  ansible.builtin.debug:
-    msg: "Echoing from cloudflare.yml"
+- name: Installing Cloudflared Tunnel
+  block:
+    - name: Installing Cloudflared ZTNA - Debian/Ubuntu
+      block:
+        - name: Making gpg keyrings directory
+          ansible.builtin.file:
+            path: /usr/share/keyrings
+            state: directory
+            mode: '0755'
+
+        - name: Downloading Cloudflare GPG key
+          ansible.builtin.get_url:
+            url: https://pkg.cloudflare.com/cloudflare-main.gpg
+            dest: /usr/share/keyrings/cloudflare-main.gpg
+            mode: '0644'
+
+        - name: Adding Cloudflare APT repository
+          copy:
+            dest: /etc/apt/sources.list.d/cloudflared.list
+            content: "deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared any main\n"
+            owner: root
+            group: root
+            mode: '0644'
+
+        - name: Updating APT package index
+          ansible.builtin.apt:
+            update_cache: yes
+
+        - name: Installing Cloudflared
+          ansible.builtin.apt:
+            name: cloudflared
+            state: present
+      when: ansible_facts['os_family'] == 'debian'
+  become: true
