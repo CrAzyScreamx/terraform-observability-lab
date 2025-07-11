@@ -26,5 +26,4 @@ terraform init \
 
 terraform $*
 
-rm -rf .terraform
 

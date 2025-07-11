@@ -1,11 +1,11 @@
 locals {
   network_security_rules = [
-    # {
-    #   name     = "allow-ssh-server"
-    #   priority = 1000
-    #   nsg      = azurerm_network_security_group.server.name
-    #   port     = "22"
-    # },
+    {
+      name     = "allow-ssh-server"
+      priority = 1000
+      nsg      = azurerm_network_security_group.server.name
+      port     = "22"
+    },
     {
       name     = "allow-ssh-client"
       priority = 1000
