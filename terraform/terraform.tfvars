@@ -1,2 +1,1 @@
-azure_location           = "israelcentral"
-cloudflare_configuration = false
+azure_location = "israelcentral"
