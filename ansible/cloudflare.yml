@@ -1,74 +1,68 @@
----
-- name: Installing Cloudflared Tunnel
+
+- name: Installing Cloudflared ZTNA - Debian/Ubuntu
   block:
-    - name: Installing Cloudflared ZTNA - Debian/Ubuntu
-      block:
-        - name: Making gpg keyrings directory
-          ansible.builtin.file:
-            path: /usr/share/keyrings
-            state: directory
-            mode: '0755'
+    - name: Making gpg keyrings directory
+      ansible.builtin.file:
+        path: /usr/share/keyrings
+        state: directory
+        mode: '0755'
 
-        - name: Downloading Cloudflare GPG key
-          ansible.builtin.get_url:
-            url: https://pkg.cloudflare.com/cloudflare-main.gpg
-            dest: /usr/share/keyrings/cloudflare-main.gpg
-            mode: '0644'
+    - name: Downloading Cloudflare GPG key
+      ansible.builtin.get_url:
+        url: https://pkg.cloudflare.com/cloudflare-main.gpg
+        dest: /usr/share/keyrings/cloudflare-main.gpg
+        mode: '0644'
 
-        - name: Adding Cloudflare APT repository
-          copy:
-            dest: /etc/apt/sources.list.d/cloudflared.list
-            content: "deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared any main\n"
-            owner: root
-            group: root
-            mode: '0644'
+    - name: Adding Cloudflare APT repository
+      copy:
+        dest: /etc/apt/sources.list.d/cloudflared.list
+        content: "deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared any main\n"
+        owner: root
+        group: root
+        mode: '0644'
 
-        - name: Updating APT package index
-          ansible.builtin.apt:
-            update_cache: yes
+    - name: Updating APT package index
+      ansible.builtin.apt:
+        update_cache: yes
 
-        - name: Installing Cloudflared
-          ansible.builtin.apt:
-            name: cloudflared
-            state: present
-      when: ansible_os_family == 'Debian'
-
-    - name: Installing Cloudflared ZTNA - RedHat/CentOS
-      block:
-        - name: Installing yum-utils for yum systems
-          ansible.builtin.yum:
-            name: yum-utils
-            state: present
-          when: ansible_pkg_mgr == "yum"
-
-        - name: Installing dnf-plugins-core for dnf systems
-          ansible.builtin.yum:
-            name: dnf-plugins-core
-            state: present
-          when: ansible_pkg_mgr == "dnf"
-
-        - name: Adding Cloudflared repository using yum_repository
-          ansible.builtin.yum_repository:
-            name: cloudflared
-            description: Cloudflare Tunnel RPM repo
-            baseurl: https://pkg.cloudflare.com/cloudflared-ascii.repo
-            enabled: yes
-            gpgcheck: no
-          when: ansible_pkg_mgr in ["yum", "dnf"]
-
-        - name: Installing cloudflared
-          ansible.builtin.package:
-            name: cloudflared
-            state: present
-      when: ansible_os_family == 'RedHat'
-
-    - name: Installing Cloudflared as a systemd
-      shell: "cloudflared service install {{ tunnel_token }}"
-    
-    - name: Configuring Cloudflare Tunnel
-      systemd:
+    - name: Installing Cloudflared
+      ansible.builtin.apt:
         name: cloudflared
-        state: started
-        enabled: true
-        masked: false
-  become: true
+        state: present
+  when: ansible_os_family == 'Debian'
+
+- name: Installing Cloudflared ZTNA - RedHat/CentOS
+  block:
+    - name: Installing yum-utils for yum systems
+      ansible.builtin.yum:
+        name: yum-utils
+        state: present
+      when: ansible_pkg_mgr == "yum"
+
+    - name: Installing dnf-plugins-core for dnf systems
+      ansible.builtin.yum:
+        name: dnf-plugins-core
+        state: present
+      when: ansible_pkg_mgr == "dnf"
+
+    - name: Downloading Cloudflared repo manually
+      ansible.builtin.get_url:
+        url: https://pkg.cloudflare.com/cloudflared-ascii.repo
+        dest: /etc/yum.repos.d/cloudflared.repo
+        mode: '0644'
+
+    - name: Installing cloudflared
+      ansible.builtin.package:
+        name: cloudflared
+        state: present
+  when: ansible_os_family == 'RedHat'
+
+- name: Installing Cloudflared as a systemd service
+  ansible.builtin.shell: "cloudflared service install {{ tunnel_token }}"
+
+- name: Configuring Cloudflare Tunnel
+  ansible.builtin.systemd:
+    name: cloudflared
+    state: started
+    enabled: true
+    masked: false
