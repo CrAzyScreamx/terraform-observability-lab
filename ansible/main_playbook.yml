@@ -5,7 +5,7 @@
   tasks:
     - name: Distribution Info
       ansible.builtin.debug:
-        msg: "Distribution: {{ ansible_distribution }}, Version: {{ ansible_distribution_version }}, Release: {{ ansible_distribution_release }}"
+        msg: "Family: {{ ansible_facts[os_family] }} ,Distribution: {{ ansible_distribution }}, Version: {{ ansible_distribution_version }}, Release: {{ ansible_distribution_release }}"
 
     - name: Insatlling Cloudflare Zero Trust Tunnel
       include_tasks: cloudflare.yml
