@@ -61,4 +61,14 @@
             name: cloudflared
             state: present
       when: ansible_os_family == 'RedHat'
+
+    - name: Installing Cloudflared as a systemd
+      shell: "cloudflared service install {{ tunnel_token }}"
+    
+    - name: Configuring Cloudflare Tunnel
+      systemd:
+        name: cloudflared
+        state: started
+        enabled: true
+        masked: false
   become: true
