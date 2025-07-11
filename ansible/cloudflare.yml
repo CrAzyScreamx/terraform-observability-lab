@@ -31,5 +31,5 @@
           ansible.builtin.apt:
             name: cloudflared
             state: present
-      when: ansible_facts['os_family'] == 'debian'
+      when: ansible_os_family == 'Debian'
   become: true
