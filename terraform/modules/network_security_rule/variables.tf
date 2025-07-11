@@ -1,9 +1,13 @@
 variable "rules" {
   type = list(object({
-    name     = string
-    priority = number
-    nsg      = string
-    port     = string
+    name                       = string
+    priority                   = number
+    nsg                        = string
+    port                       = string
+    access                     = optional(string, "Allow")
+    protocol                   = optional(string, "Tcp")
+    source_address_prefix      = optional(string, "*")
+    destination_address_prefix = optional(string, "*")
   }))
 }
 
