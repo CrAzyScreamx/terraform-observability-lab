@@ -41,13 +41,6 @@ module "server_nic" {
   subnet_id             = azurerm_subnet.main.id
 }
 
-### NIC Association with NSG for Server VM ###
-resource "azurerm_network_interface_security_group_association" "server" {
-  network_interface_id      = module.server_nic.id
-  network_security_group_id = azurerm_network_security_group.server.id
-}
-### NIC Association with NSG for Server VM ###
-
 ### Server VM Creation ###
 module "server_vm" {
   depends_on            = [data.cloudflare_zero_trust_tunnel_cloudflared_token.main]
@@ -58,9 +51,9 @@ module "server_vm" {
   network_interface_ids = [module.server_nic.id]
 
   custom_data = base64encode(templatefile("/setupFiles/server.sh", {
-    github_key   = file("keys/github.key") # Private Repo Access Key
+    github_key   = base64encode(file("keys/github.key")) # Private Repo Access Key
     cloudflare   = var.cloudflare_configuration
-    tunnel_token = data.cloudflare_zero_trust_tunnel_cloudflared_token.main.token
+    tunnel_token = data.cloudflare_zero_trust_tunnel_cloudflared_token.main[0].token
   }))
 }
 

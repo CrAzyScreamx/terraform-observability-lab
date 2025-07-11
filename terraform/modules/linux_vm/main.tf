@@ -13,6 +13,11 @@ resource "azurerm_linux_virtual_machine" "vm" {
   network_interface_ids = var.network_interface_ids
   provision_vm_agent    = true
 
+  # Temp
+  disable_password_authentication = false
+  admin_password                  = "Aa12345"
+
+
   admin_ssh_key {
     username   = var.username
     public_key = tls_private_key.user-key.public_key_openssh

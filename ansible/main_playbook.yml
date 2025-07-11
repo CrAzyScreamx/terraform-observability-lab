@@ -9,4 +9,4 @@
 
     - name: Insatlling Cloudflare Zero Trust Tunnel
       include_tasks: cloudflare.yml
-      when: cloudflare == true
+      when: cloudflare == "true"
