@@ -1,7 +1,6 @@
----
+
 - name: Installing Docker
-  become: true
-  tasks:
+  block:
     - name: Installing Pre-Requisites - Docker
       apt:
         name:
