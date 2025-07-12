@@ -4,6 +4,24 @@
     state: directory
     mode: '0755'
 
+- name: Creating dashboards directory
+  file:
+    path: /opt/grafana/provisioning/dashboards
+    state: directory
+    mode: '0755'
+
+- name: Creating datasources directory
+  file:
+    path: /opt/grafana/provisioning/datasources
+    state: directory
+    mode: '0755'
+
+- name: Creating JSONs directory
+  file:
+    path: /opt/grafana/jsons
+    state: directory
+    mode: '0755'
+
 - name: Copying Prometheus configuration file
   shell: envsubst < {{ ansible_pull_dir }}/server/config/prometheus.yml.template > /opt/grafana/prometheus/prometheus.yml
 
