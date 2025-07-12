@@ -17,5 +17,5 @@
   copy:
     dest: /opt/grafana/.env
     content: |
-      grafana_admin_user={{ grafana_admin_user }}
-      grafana_admin_password={{ grafana_admin_password }}
+      grafana_admin_user={{ grafana_user }}
+      grafana_admin_password={{ grafana_password }}
