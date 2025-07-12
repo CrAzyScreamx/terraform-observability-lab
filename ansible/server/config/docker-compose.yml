@@ -1,7 +1,7 @@
 
 services:
   prometheus:
-    image: ubuntu/prometheus:2-24.04
+    image: prom/prometheus:2-24.04
     container_name: ${name}-prometheus
     volumes:
       - ./prometheus:/etc/prometheus

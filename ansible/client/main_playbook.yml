@@ -13,4 +13,4 @@
       include_tasks: ../docker.yml
     
     - name: Configuring Node Exporter
-      include_tasks: ../node_exporter.yml
+      include_tasks: node_exporter.yml
