@@ -60,7 +60,7 @@ variable "grafana_admin_password" {
   sensitive   = true
 }
 
-variable "node_explorer_port" {
+variable "node_exporter_port" {
   type        = number
   description = "The port for Node Exporter"
   default     = 9100

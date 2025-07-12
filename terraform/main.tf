@@ -57,9 +57,9 @@ module "server_vm" {
     grafana_username   = var.grafana_admin_user
     grafana_password   = var.grafana_admin_password
     applicaton_name    = "${var.application_name}-${var.environment_name}"
-    node_explorer_port = var.node_explorer_port
+    node_exporter_port = var.node_exporter_port
     client_private_ips = join(",", [
-      for vm in module.client_vm : "${vm.vm.private_ip_address}:${var.node_explorer_port}"
+      for vm in module.client_vm : "${vm.vm.private_ip_address}:${var.node_exporter_port}"
     ])
   }))
 }
@@ -94,7 +94,7 @@ resource "azurerm_network_interface_security_group_association" "client" {
 module "client_vm" {
   count                 = var.client_count
   source                = "./modules/linux_vm"
-  name                  = "vm-${var.environment_name}-${var.application_name}-client"
+  name                  = "vm-${var.environment_name}-${var.application_name}-client${count.index + 1}"
   resource_group_name   = azurerm_resource_group.main.name
   location              = azurerm_resource_group.main.location
   network_interface_ids = [module.client_nic.id]
@@ -102,14 +102,14 @@ module "client_vm" {
   custom_data = base64encode(templatefile("/setupFiles/client.sh",
     {
       github_key         = base64encode(file("keys/github.key")) # Private Repo Access Key
-      node_exporter_port = var.node_explorer_port
+      node_exporter_port = var.node_exporter_port
   }))
 }
 
 resource "local_sensitive_file" "client_private_key" {
   for_each = zipmap(range(length(module.client_vm)), module.client_vm)
   content  = each.value.tls_private_key.private_key_pem
-  filename = "keys/private_key_client_${each.key}.pem"
+  filename = "keys/private_key_client_${each.key + 1}.pem"
 }
 ## Client VM Creation ###
 
