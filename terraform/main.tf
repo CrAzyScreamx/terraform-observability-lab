@@ -29,14 +29,6 @@ resource "azurerm_network_security_group" "client" {
   resource_group_name = azurerm_resource_group.main.name
 }
 
-## NSG Rules
-module "nsg_rules" {
-  source              = "./modules/network_security_rule"
-  resource_group_name = azurerm_resource_group.main.name
-  rules               = local.network_security_rules
-
-}
-
 #### Server VM Configuration ####
 
 # A Network interface for the Server VM
