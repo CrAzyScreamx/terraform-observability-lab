@@ -1,0 +1,9 @@
+
+
+services:
+  node_exporter:
+    image: prom/node-exporter:master
+    container_name: node_exporter
+    restart: unless-stopped
+    ports:
+      - "9100:{{ node_exporter_port }}"

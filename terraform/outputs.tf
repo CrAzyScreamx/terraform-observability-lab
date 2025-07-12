@@ -4,6 +4,6 @@ output "server_ip" {
 
 output "client_ip" {
   value = [
-    for nic in azurerm_network_interface.client_nic : nic.ip_configuration[0].private_ip_address
+    for vm in module.client_vm : vm.vm.private_ip_address
   ]
 }

@@ -1,0 +1,14 @@
+- name: Copying Docker Compose file
+  copy:
+    src: "{{ ansible_pull_dir }}/client/config/docker-compose.yml"
+    dest: /opt/node_exporter/docker-compose.yml
+    mode: '0644'
+
+- name: Creating env file for Docker Compose
+  copy:
+    dest: /opt/node_exporter/.env
+    content: | 
+      node_exporter_port={{ node_exporter_port }}
+
+- name: Starting Docker Compose Services
+  shell: "cd /opt/node_exporter && docker compose up -d"

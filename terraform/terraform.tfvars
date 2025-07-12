@@ -1,1 +1,2 @@
-azure_location = "israelcentral"
+azure_location         = "israelcentral"
+grafana_admin_password = "123123"
