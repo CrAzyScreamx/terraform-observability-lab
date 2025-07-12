@@ -3,16 +3,15 @@
   block:
     - name: Installing Pre-Requisites - Docker
       apt:
-        pkg:
-          - apt-transport-https
-          - ca-certificates
-          - curl
-          - software-properties-common
-          - python3-pip
-          - virtualenv
-          - python3-setuptools
-        state: present
-        update_cache: yes
+        - apt-transport-https
+        - ca-certificates
+        - curl
+        - software-properties-common
+        - python3-pip
+        - virtualenv
+        - python3-setuptools
+      state: present
+      update_cache: yes
     
     - name: Adding Docker GPG key
       get_url:
@@ -30,11 +29,10 @@
 
     - name: Installing Docker Package
       apt:
-        pkg:
-          - docker-ce 
-          - docker-ce-cli 
-          - containerd.io 
-          - docker-buildx-plugin 
-          - docker-compose-plugin
-        state: present
+        - docker-ce 
+        - docker-ce-cli 
+        - containerd.io 
+        - docker-buildx-plugin 
+        - docker-compose-plugin
+      state: present
       update_cache: yes
