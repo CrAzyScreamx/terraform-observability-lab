@@ -25,4 +25,4 @@
   shell: "cd /opt/grafana"
 
 - name: Starting Docker Compose services
-  shell: docker compose up -d
+  shell: "docker compose up -d"
