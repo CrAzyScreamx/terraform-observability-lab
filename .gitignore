@@ -1,3 +1,4 @@
 terraform/scripts/.env
 terraform/keys/github.key
 terraform/setupFiles/server.dev.sh
+terraform/setupFiles/client.dev.sh

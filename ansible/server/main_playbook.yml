@@ -14,7 +14,7 @@
       when: cloudflare == "true"
 
     - name: Installing Docker
-      include_tasks: docker.yml
+      include_tasks: ../docker.yml
     
     - name: Setting up Grafana and Prometheus
       include_tasks: grafana.yml

@@ -10,7 +10,7 @@
         msg: "Family: {{ ansible_os_family | lower }} ,Distribution: {{ ansible_distribution }}, Version: {{ ansible_distribution_version }}, Release: {{ ansible_distribution_release }}"
 
     - name: Installing Docker
-      include_tasks: docker.yml
+      include_tasks: ../docker.yml
     
     - name: Configuring Node Exporter
       include_tasks: node_exporter.yml
