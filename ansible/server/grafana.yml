@@ -7,6 +7,24 @@
 - name: Copying Prometheus configuration file
   shell: envsubst < {{ ansible_pull_dir }}/server/config/prometheus.yml.template > /opt/grafana/prometheus/prometheus.yml
 
+- name: Copying Dashboards configuration file
+  copy:
+    src: "{{ ansible_pull_dir }}/server/config/dashboards.yml"
+    dest: /opt/grafana/provisioning/dashboards/dashboards.yml
+    mode: '0644'
+  
+- name: Copying Default Dashboard JSON
+  copy:
+    src: "{{ ansible_pull_dir }}/server/config/default-dashboard.json"
+    dest: /opt/grafana/jsons/default-dashboard.json
+    mode: '0644'
+
+- name: Copying Default Datasource
+  copy:
+    src: "{{ ansible_pull_dir }}/server/config/default-datasource.yml"
+    dest: /opt/grafana/provisioning/datasources/datasource.yml
+    mode: '0644'
+
 - name: Copying Docker Compose file
   copy:
     src: "{{ ansible_pull_dir }}/server/config/docker-compose.yml"
