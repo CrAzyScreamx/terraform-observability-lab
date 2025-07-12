@@ -43,7 +43,7 @@ variable "cloudflare_account_id" {
 variable "cloudflare_configuration" {
   type        = bool
   description = "Flag to enable or disable Cloudflare configuration"
-  default     = true
+  default     = false
 }
 
 

@@ -1,2 +1,3 @@
-azure_location         = "israelcentral"
-grafana_admin_password = "123123"
+azure_location           = "israelcentral"
+grafana_admin_password   = "123123"
+cloudflare_configuration = true

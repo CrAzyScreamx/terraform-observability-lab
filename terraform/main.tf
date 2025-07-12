@@ -111,6 +111,7 @@ resource "local_sensitive_file" "client_private_key" {
   content  = each.value.tls_private_key.private_key_pem
   filename = "keys/private_key_client_${each.key + 1}.pem"
 }
+### Client VM Creation ###
 
 #### Client VM Configuration ####
 
