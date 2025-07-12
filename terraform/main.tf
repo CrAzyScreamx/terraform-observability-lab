@@ -56,6 +56,7 @@ module "server_vm" {
     tunnel_token     = data.cloudflare_zero_trust_tunnel_cloudflared_token.main[0].token
     grafana_username = var.grafana_admin_user
     grafana_password = var.grafana_admin_password
+    applicaton_name  = "${var.application_name}-${var.environment_name}"
     client_private_ips = [
       for vm in module.client_vm : "${vm.vm.private_ip_address}:${var.node_explorer_port}"
     ]
