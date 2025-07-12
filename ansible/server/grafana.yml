@@ -21,5 +21,8 @@
       grafana_admin_password={{ grafana_password }}
       name={{ app_name }}
 
+- name: Switching to Grafana directory
+  shell: "cd /opt/grafana"
+
 - name: Starting Docker Compose services
-  shell: docker compose up -d /opt/grafana/docker-compose.yml
+  shell: docker compose up -d
