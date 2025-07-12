@@ -1,11 +1,11 @@
 - name: Creating configuration directories
   file:
-    path: /opt/grafana/config
+    path: /opt/grafana/prometheus
     state: directory
     mode: '0755'
 
 - name: Copying Prometheus configuration file
-  shell: envsubst < {{ ansible_pull_dir }}/server/config/prometheus.yml.template > /opt/grafana/config/prometheus.yml
+  shell: envsubst < {{ ansible_pull_dir }}/server/config/prometheus.yml.template > /opt/grafana/prometheus/prometheus.yml
 
 - name: Copying Docker Compose file
   copy:
