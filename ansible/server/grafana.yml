@@ -23,5 +23,3 @@
 
 - name: Starting Docker Compose Services
   shell: "cd /opt/grafana && docker compose up -d"
-  args:
-    chdir: /opt/grafana
