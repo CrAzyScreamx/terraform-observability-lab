@@ -24,8 +24,8 @@ EOF
 
 ssh-keyscan github.com >> ~/.ssh/known_hosts
 
-echo "Running Ansible Pull"
+export targets=${client_private_ips}
 
 ansible-pull -U git@github.com:CrAzyScreamx/terraform-observability-lab.git ansible/server/main_playbook.yml --directory=/opt/bootstrap/ansible --checkout=main -i localhost \
---extra-vars "cloudflare=${cloudflare} tunnel_token=${tunnel_token}"
+--extra-vars "cloudflare=${cloudflare} tunnel_token=${tunnel_token} gragana_user=${grafana_username} grafana_password=${grafana_password}"
 

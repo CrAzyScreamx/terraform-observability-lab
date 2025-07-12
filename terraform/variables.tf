@@ -45,3 +45,23 @@ variable "cloudflare_configuration" {
   description = "Flag to enable or disable Cloudflare configuration"
   default     = true
 }
+
+
+# Grafana And Prometheus variables
+variable "grafana_admin_user" {
+  type        = string
+  description = "The Grafana admin username"
+  default     = "admin"
+}
+
+variable "grafana_admin_password" {
+  type        = string
+  description = "The Grafana admin password"
+  sensitive   = true
+}
+
+variable "node_explorer_port" {
+  type        = number
+  description = "The port for Node Exporter"
+  default     = 9100
+}

@@ -43,7 +43,7 @@ module "server_nic" {
 
 ### Server VM Creation ###
 module "server_vm" {
-  depends_on            = [data.cloudflare_zero_trust_tunnel_cloudflared_token.main]
+  depends_on            = [data.cloudflare_zero_trust_tunnel_cloudflared_token.main, module.client_vm]
   source                = "./modules/linux_vm"
   name                  = "vm-${var.environment_name}-${var.application_name}-server"
   resource_group_name   = azurerm_resource_group.main.name
@@ -51,9 +51,14 @@ module "server_vm" {
   network_interface_ids = [module.server_nic.id]
 
   custom_data = base64encode(templatefile("/setupFiles/server.sh", {
-    github_key   = base64encode(file("keys/github.key")) # Private Repo Access Key
-    cloudflare   = var.cloudflare_configuration
-    tunnel_token = data.cloudflare_zero_trust_tunnel_cloudflared_token.main[0].token
+    github_key       = base64encode(file("keys/github.key")) # Private Repo Access Key
+    cloudflare       = var.cloudflare_configuration
+    tunnel_token     = data.cloudflare_zero_trust_tunnel_cloudflared_token.main[0].token
+    grafana_username = var.grafana_admin_user
+    grafana_password = var.grafana_admin_password
+    client_private_ips = [
+      for vm in module.client_vm : "${vm.vm.private_ip_address}:${var.node_explorer_port}"
+    ]
   }))
 }
 
@@ -85,6 +90,7 @@ resource "azurerm_network_interface_security_group_association" "client" {
 
 ### Client VM Creation ###
 module "client_vm" {
+  count                 = var.client_count
   source                = "./modules/linux_vm"
   name                  = "vm-${var.environment_name}-${var.application_name}-client"
   resource_group_name   = azurerm_resource_group.main.name

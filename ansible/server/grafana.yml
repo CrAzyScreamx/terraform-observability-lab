@@ -1,0 +1,21 @@
+- name: Creating configuration directories
+  file:
+    path: /opt/grafana/config
+    state: directory
+    mode: '0755'
+
+- name: Copying Prometheus configuration file
+  shell: envsubst < {{ ansible_pull_dir }}/server/config/prometheus.yml.template > /opt/grafana/config/prometheus.yml
+
+- name: Copying Docker Compose file
+  copy:
+    src: "{{ ansible_pull_dir }}/server/config/docker-compose.yml"
+    dest: /opt/grafana/docker-compose.yml
+    mode: '0644'
+
+- name: Creating env file for Docker Compose
+  copy:
+    dest: /opt/grafana/.env
+    content: |
+      grafana_admin_user={{ grafana_admin_user }}
+      grafana_admin_password={{ grafana_admin_password }}

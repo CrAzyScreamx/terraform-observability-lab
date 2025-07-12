@@ -1,0 +1,32 @@
+
+services:
+  prometheus:
+    image: ubuntu/prometheus:2-24.04
+    container_name: ${name}-prometheus
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - prometheus_data:/prometheus
+    prots:
+      - "9090:9090"
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:12.0.2
+    container_name: ${name}-grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=${grafana_admin_user}
+      - GF_SECURITY_ADMIN_PASSWORD=${grafana_admin_password}
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+
+volumes:
+  prometheus_data:
+  grafana_data:
+    
