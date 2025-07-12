@@ -22,4 +22,4 @@
       name={{ app_name }}
 
 - name: Starting Docker Compose services
-  commamd: docker compose up -d /opt/grafana/docker-compose.yml
+  shell: docker compose up -d /opt/grafana/docker-compose.yml
