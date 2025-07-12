@@ -1,3 +1,9 @@
+- name: Creating configuration directories
+  file:
+    path: /opt/node_exporter
+    state: directory
+    mode: '0755'
+
 - name: Copying Docker Compose file
   copy:
     src: "{{ ansible_pull_dir }}/client/config/docker-compose.yml"
