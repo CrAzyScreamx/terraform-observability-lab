@@ -1,5 +1,4 @@
 
-
 services:
   node_exporter:
     image: prom/node-exporter:master

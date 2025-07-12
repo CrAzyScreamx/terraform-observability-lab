@@ -1,7 +1,7 @@
 
 services:
   prometheus:
-    image: prom/prometheus:2-24.04
+    image: prom/prometheus:main
     container_name: ${name}-prometheus
     volumes:
       - ./prometheus:/etc/prometheus
@@ -29,6 +29,13 @@ services:
     depends_on:
       - prometheus
     restart: unless-stopped
+
+  node_exporter:
+    image: prom/node-exporter:master
+    container_name: node_exporter
+    restart: unless-stopped
+    ports:
+      - "9100:${node_exporter_port}"
 
 volumes:
   prometheus_data:

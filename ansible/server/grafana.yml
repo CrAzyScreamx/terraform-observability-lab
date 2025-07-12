@@ -56,6 +56,7 @@
       grafana_admin_user={{ grafana_user }}
       grafana_admin_password={{ grafana_password }}
       name={{ app_name }}
+      node_exporter_port={{ node_exporter_port }}
 
 - name: Starting Docker Compose Services
   shell: "cd /opt/grafana && docker compose up -d"

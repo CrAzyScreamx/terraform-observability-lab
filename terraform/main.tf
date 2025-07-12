@@ -51,12 +51,13 @@ module "server_vm" {
   network_interface_ids = [module.server_nic.id]
 
   custom_data = base64encode(templatefile("/setupFiles/server.sh", {
-    github_key       = base64encode(file("keys/github.key")) # Private Repo Access Key
-    cloudflare       = var.cloudflare_configuration
-    tunnel_token     = data.cloudflare_zero_trust_tunnel_cloudflared_token.main[0].token
-    grafana_username = var.grafana_admin_user
-    grafana_password = var.grafana_admin_password
-    applicaton_name  = "${var.application_name}-${var.environment_name}"
+    github_key         = base64encode(file("keys/github.key")) # Private Repo Access Key
+    cloudflare         = var.cloudflare_configuration
+    tunnel_token       = data.cloudflare_zero_trust_tunnel_cloudflared_token.main[0].token
+    grafana_username   = var.grafana_admin_user
+    grafana_password   = var.grafana_admin_password
+    applicaton_name    = "${var.application_name}-${var.environment_name}"
+    node_explorer_port = var.node_explorer_port
     client_private_ips = join(",", [
       for vm in module.client_vm : "${vm.vm.private_ip_address}:${var.node_explorer_port}"
     ])
