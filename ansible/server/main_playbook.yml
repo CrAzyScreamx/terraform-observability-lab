@@ -10,3 +10,6 @@
     - name: Insatlling Cloudflare Zero Trust Tunnel
       include_tasks: cloudflare.yml
       when: cloudflare == "true"
+
+    - name: Installing Docker
+      include_tasks: docker.yml
