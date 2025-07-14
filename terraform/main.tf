@@ -58,7 +58,7 @@ module "server_vm" {
     grafana_password   = var.grafana_admin_password
     applicaton_name    = "${var.application_name}-${var.environment_name}"
     node_exporter_port = var.node_exporter_port
-    client_private_ips = join(",", [
+    client_private_ips = jsonencode([
       for vm in module.client_vm : "${vm.vm.private_ip_address}:${var.node_exporter_port}"
     ])
   }))
@@ -76,8 +76,9 @@ resource "local_sensitive_file" "private_key" {
 
 # A Network interface for the Client VM
 module "client_nic" {
+  count                 = var.client_count
   source                = "./modules/network_interface"
-  nic_name              = "nic-${var.environment_name}-${var.application_name}-client"
+  nic_name              = "nic-${var.environment_name}-${var.application_name}-client${count.index + 1}"
   location              = azurerm_resource_group.main.location
   resource_group_name   = azurerm_resource_group.main.name
   ip_configuration_name = "internal"
@@ -86,7 +87,8 @@ module "client_nic" {
 
 ### NIC Association with NSG for Client VM ###
 resource "azurerm_network_interface_security_group_association" "client" {
-  network_interface_id      = module.client_nic.id
+  count                     = var.client_count
+  network_interface_id      = local.client_nic_ids[count.index]
   network_security_group_id = azurerm_network_security_group.client.id
 }
 
@@ -97,7 +99,7 @@ module "client_vm" {
   name                  = "vm-${var.environment_name}-${var.application_name}-client${count.index + 1}"
   resource_group_name   = azurerm_resource_group.main.name
   location              = azurerm_resource_group.main.location
-  network_interface_ids = [module.client_nic.id]
+  network_interface_ids = [module.client_nic[count.index].id]
 
   custom_data = base64encode(templatefile("/setupFiles/client.sh",
     {
