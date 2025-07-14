@@ -16,6 +16,9 @@ After both Server and Clients are connected, it uses custom_data feature to uplo
 
 If you want to use the script in terraform/scripts/.debug-dev.sh you must create a .env file in the scripts folder with the following:
 * SUBSCRIPTION_ID - The Subscrpition ID for Azure
+* CLIENT_ID - The ID of the managed App Registration in Azure
+* TENANT_ID - The Direcotry (Tenant) ID of the organization
+* CLIENT_SERVICE - The managed Identity Client Secret that should have access to described resources
 * APPLICATION_NAME - The name of the application
 * ENVIRONMENT_NAME - The name of the environment
 * BACKEND_RG_NAME - The Resource Group used that holds the Backend container
