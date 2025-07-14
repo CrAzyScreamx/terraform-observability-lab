@@ -24,6 +24,7 @@ resource "azurerm_network_security_group" "server" {
 }
 
 resource "azurerm_network_security_group" "client" {
+  count               = var.client_count
   name                = "nsg-${var.environment_name}-${var.application_name}-client"
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
@@ -89,7 +90,7 @@ module "client_nic" {
 resource "azurerm_network_interface_security_group_association" "client" {
   count                     = var.client_count
   network_interface_id      = local.client_nic_ids[count.index]
-  network_security_group_id = azurerm_network_security_group.client.id
+  network_security_group_id = azurerm_network_security_group.client[count.index].id
 }
 
 ### Client VM Creation ###
