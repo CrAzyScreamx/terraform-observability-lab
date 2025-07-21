@@ -52,7 +52,6 @@ module "server_vm" {
   network_interface_ids = [module.server_nic.id]
 
   custom_data = base64encode(templatefile("/setupFiles/server.sh", {
-    github_key         = base64encode(file("keys/github.key")) # Private Repo Access Key
     cloudflare         = var.cloudflare_configuration
     tunnel_token       = data.cloudflare_zero_trust_tunnel_cloudflared_token.main[0].token
     grafana_username   = var.grafana_admin_user
