@@ -103,7 +103,6 @@ module "client_vm" {
 
   custom_data = base64encode(templatefile("/setupFiles/client.sh",
     {
-      github_key         = base64encode(file("keys/github.key")) # Private Repo Access Key
       node_exporter_port = var.node_exporter_port
   }))
 }
